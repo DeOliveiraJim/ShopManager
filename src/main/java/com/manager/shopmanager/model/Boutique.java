@@ -1,21 +1,27 @@
 package com.manager.shopmanager.model;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Boutique {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @NotBlank
     private String nom;
     @NotBlank
@@ -24,8 +30,9 @@ public class Boutique {
     private boolean conge;
     @NotNull
     private Timestamp dateCreation;
-    @Null
-    private Integer nbProduits;
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Produit> produits = new LinkedList<>();
     @Null
     private Integer nbCategories;
 
@@ -69,12 +76,12 @@ public class Boutique {
         this.dateCreation = dateCreation;
     }
 
-    public Integer getNbProduits() {
-        return nbProduits;
+    public List<Produit> getProduits() {
+        return new LinkedList<>(produits);
     }
 
-    public void setNbProduits(int nbProduits) {
-        this.nbProduits = nbProduits;
+    public void addProduit(Produit produit) {
+        this.produits.add(produit);
     }
 
     public Integer getNbCategories() {
@@ -93,7 +100,6 @@ public class Boutique {
                 ", horaires='" + horaires + '\'' +
                 ", conge=" + conge +
                 ", dateCreation=" + dateCreation +
-                ", nbProduits=" + nbProduits +
                 ", nbCategories=" + nbCategories +
                 '}';
     }

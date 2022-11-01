@@ -27,7 +27,7 @@ public class BoutiqueServiceImpl {
 
     private Boutique populateboutiqueEntity(Boutique boutiqueData) {
         Boutique boutique = new Boutique();
-        boutique.setNbProduits(boutiqueData.getNbProduits());
+        // boutique.setNbProduits(boutiqueData.getNbProduits());
         boutique.setHoraires(boutiqueData.getHoraires());
         boutique.setNom(boutiqueData.getNom());
         boutique.setDateCreation(boutiqueData.getDateCreation());

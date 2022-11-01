@@ -4,23 +4,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank
     private String nom;
-    private int prix;
+    @NotNull
+    @PositiveOrZero
+    private Integer prix;
     private String description;
-    private int boutiqueAssocie;
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNom() {
@@ -47,14 +48,6 @@ public class Produit {
         this.description = description;
     }
 
-    public int getBoutiqueAssocie() {
-        return boutiqueAssocie;
-    }
-
-    public void setBoutiqueAssocie(int boutiqueAssocie) {
-        this.boutiqueAssocie = boutiqueAssocie;
-    }
-
     @Override
     public String toString() {
         return "Produit{" +
@@ -62,7 +55,6 @@ public class Produit {
                 ", nom='" + nom + '\'' +
                 ", prix=" + prix +
                 ", description='" + description + '\'' +
-                ", boutiqueAssocie=" + boutiqueAssocie +
                 '}';
     }
 }
