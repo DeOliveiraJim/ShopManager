@@ -1,15 +1,16 @@
 package com.manager.shopmanager.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-@Table(name = "Catégorie")
 public class Categorie {
-
-    private String nom;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String nom;
 
     public String getNom() {
         return nom;

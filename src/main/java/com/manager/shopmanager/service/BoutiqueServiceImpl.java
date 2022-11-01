@@ -1,14 +1,13 @@
 package com.manager.shopmanager.service;
 
-import com.manager.shopmanager.model.Boutique;
-import com.manager.shopmanager.repository.BoutiqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.manager.shopmanager.model.Boutique;
+import com.manager.shopmanager.repository.BoutiqueRepository;
 
 @Service
-public class BoutiqueServiceImpl  {
+public class BoutiqueServiceImpl {
 
     @Autowired
     private BoutiqueRepository boutiqueRepository;
@@ -18,12 +17,13 @@ public class BoutiqueServiceImpl  {
         return true;
     }
 
-
-
     public Iterable<Boutique> getAllboutiques() {
         return boutiqueRepository.findAll();
     }
 
+    public void createBoutique(Boutique b) {
+        boutiqueRepository.save(b);
+    }
 
     private Boutique populateboutiqueEntity(Boutique boutiqueData) {
         Boutique boutique = new Boutique();

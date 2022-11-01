@@ -1,31 +1,39 @@
 package com.manager.shopmanager.model;
 
 import java.sql.Timestamp;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 @Entity
-@Table(name = "Boutique")
 public class Boutique {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private String nom;
-    private String horaires;
-    private boolean conge;
-    private Timestamp dateCreation;
-    private int nbProduits;
-    private int nbCategories;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    public String getId() {
+    @NotBlank
+    private String nom;
+    @NotBlank
+    private String horaires;
+    @NotNull
+    private boolean conge;
+    @NotNull
+    private Timestamp dateCreation;
+    @Null
+    private Integer nbProduits;
+    @Null
+    private Integer nbCategories;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,7 +69,7 @@ public class Boutique {
         this.dateCreation = dateCreation;
     }
 
-    public int getNbProduits() {
+    public Integer getNbProduits() {
         return nbProduits;
     }
 
@@ -69,7 +77,7 @@ public class Boutique {
         this.nbProduits = nbProduits;
     }
 
-    public int getNbCategories() {
+    public Integer getNbCategories() {
         return nbCategories;
     }
 
