@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @Entity
 public class Produit {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
     private String nom;

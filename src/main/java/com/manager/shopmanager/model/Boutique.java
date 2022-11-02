@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @Entity
 public class Boutique {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
     private String nom;
@@ -82,6 +82,10 @@ public class Boutique {
 
     public void addProduit(Produit produit) {
         this.produits.add(produit);
+    }
+
+    public void removeProduit(Produit produit) {
+        this.produits.remove(produit);
     }
 
     public Integer getNbCategories() {

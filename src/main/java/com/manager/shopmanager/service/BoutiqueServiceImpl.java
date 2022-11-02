@@ -12,7 +12,7 @@ public class BoutiqueServiceImpl {
     @Autowired
     private BoutiqueRepository boutiqueRepository;
 
-    public boolean deleteboutique(int boutiqueId) {
+    public boolean deleteBoutique(int boutiqueId) {
         boutiqueRepository.deleteById(boutiqueId);
         return true;
     }
@@ -21,8 +21,8 @@ public class BoutiqueServiceImpl {
         return boutiqueRepository.findAll();
     }
 
-    public void createBoutique(Boutique b) {
-        boutiqueRepository.save(b);
+    public Boutique saveBoutique(Boutique b) {
+        return boutiqueRepository.save(b);
     }
 
     private Boutique populateboutiqueEntity(Boutique boutiqueData) {
