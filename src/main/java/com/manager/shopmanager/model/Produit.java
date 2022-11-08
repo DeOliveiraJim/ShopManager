@@ -11,27 +11,35 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Null
+    private Integer id;
+
     @NotBlank
     private String nom;
+
     @NotNull
     @PositiveOrZero
     private Integer prix;
+
+    @NotBlankOrNull
     private String description;
+
     @JsonProperty(access = Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL)
     private List<Categorie> categories = new LinkedList<>();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -5,12 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 @Entity
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Null
+    private Integer id;
+
     @NotNull
     private String nom;
 
@@ -22,7 +25,7 @@ public class Categorie {
         this.nom = nom;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
