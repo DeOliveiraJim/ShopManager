@@ -1,5 +1,7 @@
 package com.manager.shopmanager.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class BoutiqueServiceImpl {
 
     public Iterable<Boutique> getAllboutiques() {
         return boutiqueRepository.findAll();
+    }
+
+    public Optional<Boutique> getBoutique(int id) {
+        return boutiqueRepository.findById(id);
     }
 
     public Boutique saveBoutique(Boutique b) {
