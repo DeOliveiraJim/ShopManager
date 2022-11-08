@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.manager.shopmanager.model.Categorie;
 import com.manager.shopmanager.repository.CategorieRepository;
 
+@org.springframework.web.bind.annotation.RestController
 public class CategorieRestController {
 
     @Autowired
