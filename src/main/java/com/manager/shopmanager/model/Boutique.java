@@ -16,23 +16,34 @@ import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity
 public class Boutique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank
+
+    @NotBlank(groups = OnCreateValidation.class)
+    @NotBlankOrNull(groups = OnPatchValidation.class)
     private String nom;
-    @NotBlank
+
+    @NotBlank(groups = OnCreateValidation.class)
+    @NotBlankOrNull(groups = OnPatchValidation.class)
     private String horaires;
-    @NotNull
+
+    @NotNull(groups = OnCreateValidation.class)
     private boolean conge;
-    @NotNull
+
+    @NotNull(groups = OnCreateValidation.class)
     private Timestamp dateCreation;
+
     @JsonProperty(access = Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produit> produits = new LinkedList<>();
+
     @Null
     private Integer nbCategories;
 
