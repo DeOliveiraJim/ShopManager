@@ -9,13 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.manager.shopmanager.model.Categorie;
 import com.manager.shopmanager.repository.CategorieRepository;
@@ -36,7 +30,7 @@ public class CategorieRestController {
         return new ResponseEntity<>(categorieRepository.save(input), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/categorie/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/categorie/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Categorie> renameCategorie(@PathVariable(value = "id") int categorieId,
             @Valid @RequestBody Categorie input) {
         Optional<Categorie> opCat = categorieRepository.findById(categorieId);

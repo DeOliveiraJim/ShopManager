@@ -9,13 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
@@ -47,13 +41,7 @@ public class BoutiqueRestController {
             return ResponseEntity.notFound().build();
         }
         Boutique boutique = optBoutique.get();
-        if (input.getNom() != null)
-            boutique.setNom(input.getNom());
-        if (input.getHoraires() != null)
-            boutique.setHoraires(input.getHoraires());
-        // TODO : dateCreation géré par utilisateur ou serveur ?
-        if (input.getDateCreation() != null)
-            boutique.setDateCreation(input.getDateCreation());
+        boutique.modifyBoutique(input);
         return new ResponseEntity<>(boutiqueService.saveBoutique(boutique), HttpStatus.OK);
     }
 
@@ -90,21 +78,31 @@ public class BoutiqueRestController {
         return new ResponseEntity<>(prods.get(prods.size() - 1), HttpStatus.OK);
     }
 
+    @PatchMapping(value = "/boutique/{idb}/produit/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "idb") int boutiqueId, @PathVariable(value = "id") int produitId,
+                                                                 @Validated(OnCreateValidation.class) @RequestBody Produit input) {
+        Boutique b = getBoutique(boutiqueId);
+        if (b == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Produit produit = b.getProduit(produitId);
+        if (produit == null) {
+            return ResponseEntity.notFound().build();
+        }
+        produit.modifyProduit(input);
+        boutiqueService.saveBoutique(b);
+        return new ResponseEntity<>(produit, HttpStatus.OK);
+
+    }
     @DeleteMapping(value = "/boutique/{id}/produits/{produitId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") int boutiqueId,
             @PathVariable(value = "produitId") int produitId) {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
+
+        Boutique b = getBoutique(boutiqueId);
+        if (b == null) {
             return ResponseEntity.notFound().build();
         }
-        Boutique b = optBoutique.get();
-        Produit produit = null;
-        for (Produit p : b.getProduits()) {
-            if (p.getId() == produitId) {
-                produit = p;
-                break;
-            }
-        }
+        Produit produit = b.getProduit(produitId);
         if (produit == null) {
             return ResponseEntity.notFound().build();
         }
@@ -112,5 +110,15 @@ public class BoutiqueRestController {
         boutiqueService.saveBoutique(b);
         return ResponseEntity.ok().build();
     }
+
+    private Boutique getBoutique(int boutiqueId) {
+        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
+        if (optBoutique.isEmpty()) {
+            return null;
+        }
+        Boutique b = optBoutique.get();
+        return b;
+    }
+
 
 }

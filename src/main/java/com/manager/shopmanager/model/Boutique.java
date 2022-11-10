@@ -100,6 +100,27 @@ public class Boutique {
         this.produits.remove(produit);
     }
 
+    public Produit getProduit(int produitId) {
+        Produit produit = null;
+        for (Produit p : produits) {
+            if (p.getId() == produitId) {
+                produit = p;
+                break;
+            }
+        }
+        return produit;
+    }
+
+    public void modifyBoutique(Boutique input) {
+        if (input.getNom() != null)
+            setNom(input.getNom());
+        if (input.getHoraires() != null)
+            setHoraires(input.getHoraires());
+        // TODO : dateCreation géré par utilisateur ou serveur ?
+        if (input.getDateCreation() != null)
+            setDateCreation(input.getDateCreation());
+    }
+
     public Integer getNbCategories() {
         return nbCategories;
     }

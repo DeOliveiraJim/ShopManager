@@ -14,6 +14,8 @@ public class BoutiqueServiceImpl {
     @Autowired
     private BoutiqueRepository boutiqueRepository;
 
+
+
     public boolean deleteBoutique(int boutiqueId) {
         boutiqueRepository.deleteById(boutiqueId);
         return true;
@@ -31,14 +33,7 @@ public class BoutiqueServiceImpl {
         return boutiqueRepository.save(b);
     }
 
-    private Boutique populateboutiqueEntity(Boutique boutiqueData) {
-        Boutique boutique = new Boutique();
-        // boutique.setNbProduits(boutiqueData.getNbProduits());
-        boutique.setHoraires(boutiqueData.getHoraires());
-        boutique.setNom(boutiqueData.getNom());
-        boutique.setDateCreation(boutiqueData.getDateCreation());
-        boutique.setNbCategories(boutiqueData.getNbCategories());
-        boutique.setConge(boutiqueData.isConge());
-        return boutique;
-    }
+
+
+
 }

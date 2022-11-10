@@ -16,6 +16,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.manager.shopmanager.interfaces.ValidationGroups;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity
@@ -25,11 +26,13 @@ public class Produit {
     @Null
     private Integer id;
 
-    @NotBlank
+    @NotBlank(groups = ValidationGroups.OnCreateValidation.class)
+    @NotBlankOrNull(groups = ValidationGroups.OnPatchValidation.class)
     private String nom;
 
-    @NotNull
-    @PositiveOrZero
+    @NotBlank(groups = ValidationGroups.OnCreateValidation.class)
+    @NotBlankOrNull(groups = ValidationGroups.OnPatchValidation.class)
+    @PositiveOrZero(groups = ValidationGroups.OnCreateValidation.class)
     private Integer prix;
 
     @NotBlankOrNull
@@ -71,8 +74,22 @@ public class Produit {
         return new LinkedList<>(categories);
     }
 
+    public void setCategories(List l) {
+        categories = l;
+    }
     public void addCategorie(Categorie c) {
         categories.add(c);
+    }
+
+    public void modifyProduit(Produit input) {
+        if (input.getNom() != null)
+            setNom(input.getNom());
+        if (input.getCategories() != null)
+            setCategories(input.getCategories());
+        if (input.getDescription() != null)
+            setDescription(input.description);
+        if(input.getPrix() > -1)
+            setPrix(input.getPrix());
     }
 
     @Override
