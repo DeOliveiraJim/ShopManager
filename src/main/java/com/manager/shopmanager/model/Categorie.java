@@ -1,6 +1,8 @@
 package com.manager.shopmanager.model;
 
 import com.manager.shopmanager.interfaces.ValidationGroups;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
 import javax.persistence.Entity;
@@ -14,11 +16,11 @@ import javax.validation.constraints.Null;
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer id;
 
-    @NotBlank(groups = ValidationGroups.OnCreateValidation.class)
-    @NotBlankOrNull(groups = ValidationGroups.OnPatchValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
+    @NotBlankOrNull(groups = OnPatchValidation.class)
     private String nom;
 
     public String getNom() {

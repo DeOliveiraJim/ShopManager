@@ -10,29 +10,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.manager.shopmanager.interfaces.ValidationGroups;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer id;
 
-    @NotBlank(groups = ValidationGroups.OnCreateValidation.class)
-    @NotBlankOrNull(groups = ValidationGroups.OnPatchValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
+    @NotBlankOrNull(groups = OnPatchValidation.class)
     private String nom;
 
-    @NotBlank(groups = ValidationGroups.OnCreateValidation.class)
-    @NotBlankOrNull(groups = ValidationGroups.OnPatchValidation.class)
-    @PositiveOrZero(groups = ValidationGroups.OnCreateValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
+    @NotBlankOrNull(groups = OnPatchValidation.class)
+    @PositiveOrZero(groups = OnCreateValidation.class)
     private Integer prix;
 
     @NotBlankOrNull
@@ -77,6 +77,7 @@ public class Produit {
     public void setCategories(List l) {
         categories = l;
     }
+
     public void addCategorie(Categorie c) {
         categories.add(c);
     }
@@ -88,7 +89,7 @@ public class Produit {
             setCategories(input.getCategories());
         if (input.getDescription() != null)
             setDescription(input.description);
-        if(input.getPrix() > -1)
+        if (input.getPrix() > -1)
             setPrix(input.getPrix());
     }
 

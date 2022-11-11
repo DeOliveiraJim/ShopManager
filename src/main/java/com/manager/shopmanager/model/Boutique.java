@@ -24,7 +24,7 @@ import com.manager.shopmanager.validation.NotBlankOrNull;
 public class Boutique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
