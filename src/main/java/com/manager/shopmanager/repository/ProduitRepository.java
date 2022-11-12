@@ -1,8 +1,8 @@
 package com.manager.shopmanager.repository;
 
-import com.manager.shopmanager.model.Categorie;
-import com.manager.shopmanager.model.Produit;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.manager.shopmanager.model.Produit;
 
 public interface ProduitRepository extends JpaRepository<Produit, Integer> {
 }

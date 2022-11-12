@@ -9,7 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
@@ -79,8 +85,9 @@ public class BoutiqueRestController {
     }
 
     @PatchMapping(value = "/boutique/{idb}/produit/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "idb") int boutiqueId, @PathVariable(value = "id") int produitId,
-                                                                 @Validated(OnCreateValidation.class) @RequestBody Produit input) {
+    public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "idb") int boutiqueId,
+            @PathVariable(value = "id") int produitId,
+            @Validated(OnCreateValidation.class) @RequestBody Produit input) {
         Boutique b = getBoutique(boutiqueId);
         if (b == null) {
             return ResponseEntity.notFound().build();
@@ -94,6 +101,7 @@ public class BoutiqueRestController {
         return new ResponseEntity<>(produit, HttpStatus.OK);
 
     }
+
     @DeleteMapping(value = "/boutique/{id}/produits/{produitId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") int boutiqueId,
             @PathVariable(value = "produitId") int produitId) {
@@ -119,6 +127,5 @@ public class BoutiqueRestController {
         Boutique b = optBoutique.get();
         return b;
     }
-
 
 }

@@ -74,7 +74,7 @@ public class Produit {
         return new LinkedList<>(categories);
     }
 
-    public void setCategories(List l) {
+    public void setCategories(List<Categorie> l) {
         categories = l;
     }
 
