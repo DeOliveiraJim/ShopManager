@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 
-import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity

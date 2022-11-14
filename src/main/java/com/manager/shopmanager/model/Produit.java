@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
 
-import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity

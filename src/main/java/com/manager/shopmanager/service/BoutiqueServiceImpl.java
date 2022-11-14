@@ -2,6 +2,7 @@ package com.manager.shopmanager.service;
 
 import java.util.Optional;
 
+import com.manager.shopmanager.exceptions.ElementNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class BoutiqueServiceImpl {
     }
 
     public Optional<Boutique> getBoutique(int id) {
-        return boutiqueRepository.findById(id);
+        return Optional.ofNullable(boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Boutique not found")));
     }
 
     public Boutique saveBoutique(Boutique b) {

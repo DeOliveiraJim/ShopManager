@@ -1,26 +1,19 @@
 package com.manager.shopmanager.controllers;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.manager.shopmanager.exceptions.ElementNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.model.Boutique;
 import com.manager.shopmanager.model.Produit;
 import com.manager.shopmanager.service.BoutiqueServiceImpl;
@@ -45,7 +38,7 @@ public class BoutiqueRestController {
 
     @PatchMapping(value = "/boutique/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boutique> updateBoutique(@PathVariable(value = "id") int id,
-            @Validated(OnPatchValidation.class) @RequestBody Boutique input) {
+            @Validated(OnPatchValidation.class) @RequestBody Boutique input) throws ElementNotFoundException {
         Optional<Boutique> optBoutique = boutiqueService.getBoutique(id);
         if (optBoutique.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -131,5 +124,8 @@ public class BoutiqueRestController {
         Boutique b = optBoutique.get();
         return b;
     }
+
+
+
 
 }
