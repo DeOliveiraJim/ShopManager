@@ -84,10 +84,10 @@ public class BoutiqueRestController {
         return new ResponseEntity<>(prods.get(prods.size() - 1), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/boutique/{idb}/produit/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "idb") int boutiqueId,
-            @PathVariable(value = "id") int produitId,
-            @Validated(OnCreateValidation.class) @RequestBody Produit input) {
+    @PatchMapping(value = "/boutique/{id}/produits/{produitId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "id") int boutiqueId,
+            @PathVariable(value = "produitId") int produitId,
+            @Validated(OnPatchValidation.class) @RequestBody Produit input) {
         Boutique b = getBoutique(boutiqueId);
         if (b == null) {
             return ResponseEntity.notFound().build();
