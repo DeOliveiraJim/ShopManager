@@ -38,7 +38,7 @@ public class Boutique {
     @NotNull(groups = OnCreateValidation.class)
     private boolean conge;
 
-    @NotNull(groups = OnCreateValidation.class)
+    @Null(groups = OnCreateValidation.class)
     private Timestamp dateCreation;
 
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -116,7 +116,6 @@ public class Boutique {
             setNom(input.getNom());
         if (input.getHoraires() != null)
             setHoraires(input.getHoraires());
-        // TODO : dateCreation géré par utilisateur ou serveur ?
         if (input.getDateCreation() != null)
             setDateCreation(input.getDateCreation());
     }

@@ -1,5 +1,7 @@
 package com.manager.shopmanager.controllers;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,8 @@ public class BoutiqueRestController {
 
     @PostMapping(value = "/boutique", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boutique> createBoutique(@Validated(OnCreateValidation.class) @RequestBody Boutique input) {
+        Date date = new Date();
+        input.setDateCreation(new Timestamp(date.getTime()));
         return new ResponseEntity<>(boutiqueService.saveBoutique(input), HttpStatus.OK);
     }
 
