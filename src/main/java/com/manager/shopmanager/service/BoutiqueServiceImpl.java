@@ -14,8 +14,6 @@ public class BoutiqueServiceImpl {
     @Autowired
     private BoutiqueRepository boutiqueRepository;
 
-
-
     public boolean deleteBoutique(int boutiqueId) {
         boutiqueRepository.deleteById(boutiqueId);
         return true;
@@ -32,8 +30,5 @@ public class BoutiqueServiceImpl {
     public Boutique saveBoutique(Boutique b) {
         return boutiqueRepository.save(b);
     }
-
-
-
 
 }

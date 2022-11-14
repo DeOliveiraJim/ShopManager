@@ -10,11 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
@@ -30,15 +29,13 @@ public class Produit {
     @NotBlankOrNull(groups = OnPatchValidation.class)
     private String nom;
 
-    @NotBlank(groups = OnCreateValidation.class)
-    @NotBlankOrNull(groups = OnPatchValidation.class)
-    @PositiveOrZero(groups = OnCreateValidation.class)
+    @NotNull(groups = OnCreateValidation.class)
+    @PositiveOrZero(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer prix;
 
     @NotBlankOrNull
     private String description;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL)
     private List<Categorie> categories = new LinkedList<>();
 
@@ -74,7 +71,7 @@ public class Produit {
         return new LinkedList<>(categories);
     }
 
-    public void setCategories(List l) {
+    public void setCategories(List<Categorie> l) {
         categories = l;
     }
 
