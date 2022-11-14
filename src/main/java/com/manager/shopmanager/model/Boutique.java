@@ -116,8 +116,6 @@ public class Boutique {
             setNom(input.getNom());
         if (input.getHoraires() != null)
             setHoraires(input.getHoraires());
-        if (input.getDateCreation() != null)
-            setDateCreation(input.getDateCreation());
     }
 
     public Integer getNbCategories() {
