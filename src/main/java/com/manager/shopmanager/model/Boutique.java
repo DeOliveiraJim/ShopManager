@@ -38,7 +38,7 @@ public class Boutique {
     @NotNull(groups = OnCreateValidation.class)
     private boolean conge;
 
-    @Null(groups = OnCreateValidation.class)
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Timestamp dateCreation;
 
     @JsonProperty(access = Access.WRITE_ONLY)
