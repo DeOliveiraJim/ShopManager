@@ -1,21 +1,29 @@
 package com.manager.shopmanager.controllers;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.manager.shopmanager.exceptions.ElementNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.exceptions.ElementNotFoundException;
 import com.manager.shopmanager.model.Boutique;
 import com.manager.shopmanager.model.Produit;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.service.BoutiqueServiceImpl;
 
 @org.springframework.web.bind.annotation.RestController
@@ -124,8 +132,5 @@ public class BoutiqueRestController {
         Boutique b = optBoutique.get();
         return b;
     }
-
-
-
 
 }
