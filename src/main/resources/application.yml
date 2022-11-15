@@ -1,7 +1,7 @@
 spring:
   jpa.hibernate.ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost/shop_manager?createDatabaseIfNotExist=false&autoReconnect=true
+    url: jdbc:mysql://localhost/shop_manager?createDatabaseIfNotExist=true&autoReconnect=true
     username: phpmyadmin
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
