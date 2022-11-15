@@ -101,6 +101,7 @@ public class Boutique {
 
     public void removeProduit(Produit produit) {
         this.produits.remove(produit);
+        updateNbCategories();
     }
 
     public Produit getProduit(int produitId) {
