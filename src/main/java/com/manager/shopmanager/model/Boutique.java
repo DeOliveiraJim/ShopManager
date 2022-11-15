@@ -1,8 +1,10 @@
 package com.manager.shopmanager.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -45,7 +47,7 @@ public class Boutique {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produit> produits = new LinkedList<>();
 
-    @Null
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer nbCategories;
 
     public Integer getId() {
@@ -94,6 +96,7 @@ public class Boutique {
 
     public void addProduit(Produit produit) {
         this.produits.add(produit);
+        updateNbCategories();
     }
 
     public void removeProduit(Produit produit) {
@@ -124,8 +127,12 @@ public class Boutique {
         return nbCategories;
     }
 
-    public void setNbCategories(int nbCategories) {
-        this.nbCategories = nbCategories;
+    public void updateNbCategories() {
+        Set<Categorie> cats = new HashSet<>();
+        for (Produit p : produits) {
+            cats.addAll(p.getCategories());
+        }
+        this.nbCategories = cats.size();
     }
 
     @Override
