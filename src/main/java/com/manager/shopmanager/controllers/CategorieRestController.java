@@ -15,28 +15,31 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.manager.shopmanager.model.Categorie;
 import com.manager.shopmanager.repository.CategorieRepository;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
+@RequestMapping("/categorie")
 public class CategorieRestController {
 
     @Autowired
     private CategorieRepository categorieRepository;
 
-    @GetMapping(value = "/categorie", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Categorie>> getCategories() {
         return new ResponseEntity<>(categorieRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/categorie", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Categorie> addCategorie(@Valid @RequestBody Categorie input) {
         return new ResponseEntity<>(categorieRepository.save(input), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/categorie/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Categorie> renameCategorie(@PathVariable(value = "id") int categorieId,
             @Valid @RequestBody Categorie input) {
         Optional<Categorie> opCat = categorieRepository.findById(categorieId);
@@ -48,7 +51,7 @@ public class CategorieRestController {
         return new ResponseEntity<>(categorieRepository.save(categorie), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/categorie/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> removeCategorie(@PathVariable(value = "id") int categorieId) {
         Optional<Categorie> opCat = categorieRepository.findById(categorieId);
         if (opCat.isEmpty()) {
