@@ -1,5 +1,6 @@
 package com.manager.shopmanager.controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manager.shopmanager.model.Boutique;
+import com.manager.shopmanager.model.Categorie;
 import com.manager.shopmanager.model.Produit;
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.service.BoutiqueServiceImpl;
+import com.manager.shopmanager.service.CategorieServiceImpl;
 
 @RestController
 @RequestMapping("/boutique/{boutiqueId}")
@@ -31,6 +34,9 @@ public class ProduitRestController {
 
     @Resource
     private BoutiqueServiceImpl boutiqueService;
+
+    @Resource
+    private CategorieServiceImpl categorieService;
 
     @GetMapping(value = "/produits", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Produit>> getProducts(@PathVariable(value = "boutiqueId") int boutiqueId) {
@@ -45,6 +51,9 @@ public class ProduitRestController {
     @PostMapping(value = "/produits", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Produit> addProduct(@PathVariable(value = "boutiqueId") int boutiqueId,
             @Validated(OnCreateValidation.class) @RequestBody Produit input) {
+        if (input.getCategories() != null) {
+            input.setCategories(resolveCategories(input.getCategories()));
+        }
         Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
         if (optBoutique.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -59,6 +68,9 @@ public class ProduitRestController {
     public @ResponseBody ResponseEntity<Produit> modifyProduit(@PathVariable(value = "boutiqueId") int boutiqueId,
             @PathVariable(value = "produitId") int produitId,
             @Validated(OnPatchValidation.class) @RequestBody Produit input) {
+        if (input.getCategories() != null) {
+            input.setCategories(resolveCategories(input.getCategories()));
+        }
         Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
         if (optBoutique.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -91,4 +103,17 @@ public class ProduitRestController {
         return ResponseEntity.ok().build();
     }
 
+    private List<Categorie> resolveCategories(List<Categorie> cats) {
+        List<Categorie> result = new LinkedList<>();
+        for (Categorie c : cats) {
+            c.setNom(c.getNom().toUpperCase());
+            Optional<Categorie> optC = categorieService.getCategorieByName(c.getNom());
+            if (optC.isPresent()) {
+                result.add(optC.get());
+            } else {
+                result.add(c);
+            }
+        }
+        return result;
+    }
 }
