@@ -30,7 +30,7 @@ public class Produit {
     private String nom;
 
     @NotNull(groups = OnCreateValidation.class)
-    @PositiveOrZero(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @PositiveOrZero
     private Integer prix;
 
     @NotBlankOrNull
@@ -51,7 +51,7 @@ public class Produit {
         this.nom = nom;
     }
 
-    public int getPrix() {
+    public Integer getPrix() {
         return prix;
     }
 
@@ -86,7 +86,7 @@ public class Produit {
             setCategories(input.getCategories());
         if (input.getDescription() != null)
             setDescription(input.description);
-        if (input.getPrix() > -1)
+        if (input.getPrix() != null)
             setPrix(input.getPrix());
     }
 

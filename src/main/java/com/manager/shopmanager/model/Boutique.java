@@ -36,7 +36,7 @@ public class Boutique {
     private String horaires;
 
     @NotNull(groups = OnCreateValidation.class)
-    private boolean conge;
+    private Boolean conge;
 
     @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Timestamp dateCreation;
@@ -72,7 +72,7 @@ public class Boutique {
         this.horaires = horaires;
     }
 
-    public boolean isConge() {
+    public Boolean isConge() {
         return conge;
     }
 
@@ -116,6 +116,8 @@ public class Boutique {
             setNom(input.getNom());
         if (input.getHoraires() != null)
             setHoraires(input.getHoraires());
+        if (input.isConge() != null)
+            setConge(input.isConge());
     }
 
     public Integer getNbCategories() {
