@@ -25,6 +25,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.core.JacksonException;
+
 @RestControllerAdvice
 public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler {
     public ControllersExceptionsHandler() {
@@ -109,9 +111,13 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        StringBuilder message = new StringBuilder();
-        message.append("JSON request not readable, cause -> ");
-        message.append(ex.getCause());
+        StringBuilder message = new StringBuilder("JSON request not readable, cause -> ");
+        Throwable cause = ex.getCause();
+        if (cause instanceof JacksonException) {
+            message.append(((JacksonException) cause).getOriginalMessage());
+        } else {
+            message.append(cause);
+        }
         return sendResponseEntity(createErrorResponse(ex, message.toString(), status, request));
     }
 
