@@ -38,6 +38,14 @@ public class BoutiqueRestController {
         return boutiqueService.getAllboutiques();
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Boutique getOneBoutique(@PathVariable(value = "id") int boutiqueId)
+            throws ElementNotFoundException {
+        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
+        return optBoutique.get();
+    }
+
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boutique> createBoutique(@Validated(OnCreateValidation.class) @RequestBody Boutique input) {
         Date date = new Date();

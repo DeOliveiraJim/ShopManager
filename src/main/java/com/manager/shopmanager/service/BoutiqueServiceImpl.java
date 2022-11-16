@@ -26,7 +26,7 @@ public class BoutiqueServiceImpl {
 
     public Optional<Boutique> getBoutique(int id) {
         return Optional.ofNullable(
-                boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Boutique not found")));
+                boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException()));
     }
 
     public Boutique saveBoutique(Boutique b) {
