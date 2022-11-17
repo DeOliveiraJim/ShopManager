@@ -27,11 +27,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.core.JacksonException;
 
+import javax.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler {
     public ControllersExceptionsHandler() {
         super();
     }
+
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
+                                                                        WebRequest request) {
+        StringBuilder message = new StringBuilder();
+        String [] m = ex.getConstraintViolations().toString().split(",");
+        message.append(m[1].split("=")[1] + " ");
+        message.append(m[0].split("=")[1]);
+
+        return sendResponseEntity(
+                createErrorResponse(ex, message.toString(), HttpStatus.BAD_REQUEST, request));
+    }
+
 
     @ExceptionHandler(ElementNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementFoundException(ElementNotFoundException ex,
@@ -76,35 +92,30 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
-        System.err.println("A");
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        System.err.println("B");
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        System.err.println("C");
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        System.err.println("D");
         return super.handleConversionNotSupported(ex, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
-        System.err.println("E");
         return super.handleTypeMismatch(ex, headers, status, request);
     }
 
@@ -165,9 +176,10 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
-        System.err.println("L");
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
+
+
 
     private ErrorMessage createErrorResponse(Exception exception,
             HttpStatus httpStatus,
