@@ -3,12 +3,11 @@ package com.manager.shopmanager.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manager.shopmanager.model.Categorie;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.repository.CategorieRepository;
 
 @RestController
@@ -35,13 +36,14 @@ public class CategorieRestController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Categorie> addCategorie(@Valid @RequestBody Categorie input) {
+    public @ResponseBody ResponseEntity<Categorie> addCategorie(
+            @Validated(OnCreateValidation.class) @RequestBody Categorie input) {
         return new ResponseEntity<>(categorieRepository.save(input), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Categorie> renameCategorie(@PathVariable(value = "id") int categorieId,
-            @Valid @RequestBody Categorie input) {
+            @Validated(OnPatchValidation.class) @RequestBody Categorie input) {
         Optional<Categorie> opCat = categorieRepository.findById(categorieId);
         if (opCat.isEmpty()) {
             return ResponseEntity.notFound().build();
