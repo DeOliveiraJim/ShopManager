@@ -1,5 +1,7 @@
 package com.manager.shopmanager.exceptions;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -27,27 +29,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.core.JacksonException;
 
-import javax.validation.ConstraintViolationException;
-
 @RestControllerAdvice
 public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler {
     public ControllersExceptionsHandler() {
         super();
     }
 
-
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
-                                                                        WebRequest request) {
+            WebRequest request) {
         StringBuilder message = new StringBuilder();
-        String [] m = ex.getConstraintViolations().toString().split(",");
+        String[] m = ex.getConstraintViolations().toString().split(",");
         message.append(m[1].split("=")[1] + " ");
         message.append(m[0].split("=")[1]);
 
         return sendResponseEntity(
                 createErrorResponse(ex, message.toString(), HttpStatus.BAD_REQUEST, request));
     }
-
 
     @ExceptionHandler(ElementNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementFoundException(ElementNotFoundException ex,
@@ -178,8 +176,6 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
             HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
-
-
 
     private ErrorMessage createErrorResponse(Exception exception,
             HttpStatus httpStatus,

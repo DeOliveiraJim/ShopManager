@@ -1,7 +1,5 @@
 package com.manager.shopmanager.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +22,8 @@ public class BoutiqueServiceImpl {
         return boutiqueRepository.findAll();
     }
 
-    public Optional<Boutique> getBoutique(int id) {
-        return Optional.ofNullable(
-                boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException()));
+    public Boutique getBoutique(int id) throws ElementNotFoundException {
+        return boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException());
     }
 
     public Boutique saveBoutique(Boutique b) {

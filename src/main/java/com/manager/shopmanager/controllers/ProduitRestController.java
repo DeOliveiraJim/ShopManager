@@ -40,11 +40,7 @@ public class ProduitRestController {
 
     @GetMapping(value = "/produits", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Produit>> getProducts(@PathVariable(value = "boutiqueId") int boutiqueId) {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Boutique b = optBoutique.get();
+        Boutique b = boutiqueService.getBoutique(boutiqueId);
         return new ResponseEntity<>(b.getProduits(), HttpStatus.OK);
     }
 
@@ -54,11 +50,7 @@ public class ProduitRestController {
         if (input.getCategories() != null) {
             input.setCategories(resolveCategories(input.getCategories()));
         }
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Boutique b = optBoutique.get();
+        Boutique b = boutiqueService.getBoutique(boutiqueId);
         b.addProduit(input);
         List<Produit> prods = boutiqueService.saveBoutique(b).getProduits();
         return new ResponseEntity<>(prods.get(prods.size() - 1), HttpStatus.OK);
@@ -71,11 +63,7 @@ public class ProduitRestController {
         if (input.getCategories() != null) {
             input.setCategories(resolveCategories(input.getCategories()));
         }
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Boutique boutique = optBoutique.get();
+        Boutique boutique = boutiqueService.getBoutique(boutiqueId);
         Produit produit = boutique.getProduit(produitId);
         if (produit == null) {
             return ResponseEntity.notFound().build();
@@ -89,11 +77,7 @@ public class ProduitRestController {
     @DeleteMapping(value = "/produits/{produitId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> deleteProduct(@PathVariable(value = "boutiqueId") int boutiqueId,
             @PathVariable(value = "produitId") int produitId) {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Boutique boutique = optBoutique.get();
+        Boutique boutique = boutiqueService.getBoutique(boutiqueId);
         Produit produit = boutique.getProduit(produitId);
         if (produit == null) {
             return ResponseEntity.notFound().build();

@@ -2,7 +2,6 @@ package com.manager.shopmanager.controllers;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -39,12 +38,9 @@ public class BoutiqueRestController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Boutique getOneBoutique(@PathVariable(value = "id") int boutiqueId)
-            throws ElementNotFoundException {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        return optBoutique.get();
+    public @ResponseBody Boutique getOneBoutique(@PathVariable(value = "id") int boutiqueId) {
+        return boutiqueService.getBoutique(boutiqueId);
     }
-
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boutique> createBoutique(@Validated(OnCreateValidation.class) @RequestBody Boutique input) {
@@ -56,21 +52,14 @@ public class BoutiqueRestController {
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boutique> updateBoutique(@PathVariable(value = "id") int id,
             @Validated(OnPatchValidation.class) @RequestBody Boutique input) throws ElementNotFoundException {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(id);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Boutique boutique = optBoutique.get();
+        Boutique boutique = boutiqueService.getBoutique(id);
         boutique.modifyBoutique(input);
         return new ResponseEntity<>(boutiqueService.saveBoutique(boutique), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> deleteBoutique(@PathVariable(value = "id") int boutiqueId) {
-        Optional<Boutique> optBoutique = boutiqueService.getBoutique(boutiqueId);
-        if (optBoutique.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        boutiqueService.getBoutique(boutiqueId);
         boutiqueService.deleteBoutique(boutiqueId);
         return ResponseEntity.ok().build();
     }
