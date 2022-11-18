@@ -8,4 +8,6 @@ spring:
   sql.init:
     platform: mysql
     mode: always
-  jackson.deserialization.fail-on-unknown-properties: true
+  jackson.deserialization:
+    fail-on-unknown-properties: true
+    fail-on-ignored-properties: true

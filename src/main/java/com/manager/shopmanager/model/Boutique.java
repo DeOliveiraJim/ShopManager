@@ -47,8 +47,11 @@ public class Boutique {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produit> produits = new LinkedList<>();
 
-    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
-    private Integer nbCategories;
+    @JsonProperty(access = Access.READ_ONLY)
+    private Integer nbCategories = 0;
+
+    @JsonProperty(access = Access.READ_ONLY)
+    private Integer nbProduits = 0;
 
     public Integer getId() {
         return id;
@@ -96,12 +99,12 @@ public class Boutique {
 
     public void addProduit(Produit produit) {
         this.produits.add(produit);
-        updateNbCategories();
+        updateNbs();
     }
 
     public void removeProduit(Produit produit) {
         this.produits.remove(produit);
-        updateNbCategories();
+        updateNbs();
     }
 
     public Produit getProduit(int produitId) {
@@ -128,12 +131,13 @@ public class Boutique {
         return nbCategories;
     }
 
-    public void updateNbCategories() {
+    public void updateNbs() {
         Set<Categorie> cats = new HashSet<>();
         for (Produit p : produits) {
             cats.addAll(p.getCategories());
         }
         this.nbCategories = cats.size();
+        this.nbProduits = getProduits().size();
     }
 
     @Override
