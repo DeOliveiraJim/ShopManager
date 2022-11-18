@@ -51,7 +51,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
     protected ResponseEntity<Object> handleNoSuchElementFoundException(ElementNotFoundException ex,
             WebRequest request) {
         return sendResponseEntity(
-                createErrorResponse(ex, "Requested element not found.", HttpStatus.NOT_FOUND, request));
+                createErrorResponse(ex, ex.getMessage(), HttpStatus.NOT_FOUND, request));
     }
 
     @Override

@@ -23,7 +23,8 @@ public class BoutiqueServiceImpl {
     }
 
     public Boutique getBoutique(int id) throws ElementNotFoundException {
-        return boutiqueRepository.findById(id).orElseThrow(() -> new ElementNotFoundException());
+        return boutiqueRepository.findById(id).orElseThrow(
+                () -> new ElementNotFoundException("The shop with id " + id + " cannot be found"));
     }
 
     public Boutique saveBoutique(Boutique b) {
