@@ -45,6 +45,7 @@ public class Boutique {
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Null(groups = OnPatchValidation.class)
     private List<Produit> produits = new LinkedList<>();
 
     @JsonProperty(access = Access.READ_ONLY)
