@@ -40,4 +40,4 @@ jobs:
       -
         name: Test
         run: |
-          docker run --rm ${{ jhimjhim/springbootmysql }}
+          docker run --rm jhimjhim/springbootmysql
