@@ -31,6 +31,9 @@ jobs:
           push: true
           tags: jhimjhim/springbootmysql
           
-      - name: Test
-        run: |
-          docker run --rm jhimjhim/springbootmysql
+      # need checkout before using compose-action
+      - uses: actions/checkout@v3
+      - uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker-compose.yml"
+          down-flags: "--volumes"
