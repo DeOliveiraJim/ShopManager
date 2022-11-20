@@ -37,3 +37,7 @@ jobs:
         with:
           compose-file: "./docker-compose.yml"
           down-flags: "--volumes"
+      -
+        name: Test
+        run: |
+          docker run --rm ${{ jhimjhim/springbootmysql }}
