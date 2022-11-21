@@ -1,5 +1,10 @@
 package com.manager.shopmanager.exceptions;
 
+import java.net.ConnectException;
+import java.sql.SQLException;
+
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -27,10 +33,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.core.JacksonException;
 
-import javax.validation.ConstraintViolationException;
-import java.net.ConnectException;
-import java.sql.SQLException;
-
 @RestControllerAdvice
 public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler {
     public ControllersExceptionsHandler() {
@@ -39,7 +41,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ConnectException.class)
     protected ResponseEntity<Object> handleConnectException(ConnectException ex,
-                                                                        WebRequest request) {
+            WebRequest request) {
         return sendResponseEntity(
                 createErrorResponse(ex, "Le serveur est actuellement " +
                         "indisponible veuillez réessayez plus tard ", HttpStatus.SERVICE_UNAVAILABLE, request));
@@ -47,7 +49,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(SQLException.class)
     protected ResponseEntity<Object> handleSQLException(SQLException ex,
-                                                        WebRequest request) {
+            WebRequest request) {
         return sendResponseEntity(
                 createErrorResponse(ex, "La base de donnée est actuellement " +
                         "indisponible veuillez réessayez plus tard ", HttpStatus.SERVICE_UNAVAILABLE, request));
@@ -55,16 +57,15 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
-                                                                        WebRequest request) {
+            WebRequest request) {
         StringBuilder message = new StringBuilder();
-        String [] m = ex.getConstraintViolations().toString().split(",");
+        String[] m = ex.getConstraintViolations().toString().split(",");
         message.append(m[1].split("=")[1] + " ");
         message.append(m[0].split("=")[1]);
 
         return sendResponseEntity(
                 createErrorResponse(ex, message.toString(), HttpStatus.BAD_REQUEST, request));
     }
-
 
     @ExceptionHandler(ElementNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementFoundException(ElementNotFoundException ex,
@@ -191,12 +192,10 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
-
-
 
     private ErrorMessage createErrorResponse(Exception exception,
             HttpStatus httpStatus,
