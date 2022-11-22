@@ -1,5 +1,7 @@
-FROM maven:3.8.4-jdk-11
-
-COPY target/shop-manager-0.0.1-SNAPSHOT.jar /shop-manager-0.0.1-SNAPSHOT.jar
-
-ENTRYPOINT [ "java", "-jar", "/shop-manager-0.0.1-SNAPSHOT.jar"]
+FROM maven:3.8.6-jdk-11-slim
+COPY . .
+RUN mvn install -DskipTests
+ARG JAR_FILE=target/*.jar
+RUN cp ${JAR_FILE} app.jar
+EXPOSE 3306
+ENTRYPOINT [ "java", "-jar", "app.jar"]
