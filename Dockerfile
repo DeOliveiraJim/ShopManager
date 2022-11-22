@@ -3,5 +3,4 @@ COPY . .
 RUN mvn install -DskipTests
 ARG JAR_FILE=target/*.jar
 RUN cp ${JAR_FILE} app.jar
-EXPOSE 3306
 ENTRYPOINT [ "java", "-jar", "app.jar"]
