@@ -44,6 +44,18 @@ public class ProduitRestController {
         return new ResponseEntity<>(b.getProduits(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/produits/{produitId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Produit> getOneProduct(@PathVariable(value = "boutiqueId") int boutiqueId,
+                                                @PathVariable(value = "produitId") int produitId) {
+
+        Boutique boutique = boutiqueService.getBoutique(boutiqueId);
+        Produit produit = boutique.getProduit(produitId);
+        if (produit == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(produit, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/produits", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Produit> addProduct(@PathVariable(value = "boutiqueId") int boutiqueId,
             @Validated(OnCreateValidation.class) @RequestBody Produit input) {

@@ -3,12 +3,7 @@ package com.manager.shopmanager.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -34,6 +29,7 @@ public class Produit {
     private Integer prix;
 
     @NotBlankOrNull
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)

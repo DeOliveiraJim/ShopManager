@@ -35,6 +35,8 @@ public class CategorieRestController {
         return new ResponseEntity<>(categorieRepository.findAll(), HttpStatus.OK);
     }
 
+
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Categorie> addCategorie(
             @Validated(OnCreateValidation.class) @RequestBody Categorie input) {
