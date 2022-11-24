@@ -1,10 +1,9 @@
 package com.manager.shopmanager.exceptions;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorMessage {
@@ -45,7 +44,6 @@ public class ErrorMessage {
         this.message = message;
     }
 
-
     public List<ValidationError> getErrors() {
         return errors;
     }
@@ -71,9 +69,8 @@ public class ErrorMessage {
     }
 
     private static class ValidationError {
-        private  String field;
-        private  String message;
-
+        private String field;
+        private String message;
 
         public ValidationError(String field, String message) {
             this.field = field;
@@ -96,11 +93,10 @@ public class ErrorMessage {
             this.message = message;
         }
 
-
     }
 
-    public void addValidationError(String field, String message){
-        if(errors == null){
+    public void addValidationError(String field, String message) {
+        if (errors == null) {
             errors = new ArrayList<>();
         }
         errors.add(new ValidationError(field, message));

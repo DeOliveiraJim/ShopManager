@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
@@ -43,9 +44,8 @@ public class Boutique {
     @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Timestamp dateCreation;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Null(groups = OnPatchValidation.class)
+    @JsonIgnore
     private List<Produit> produits = new LinkedList<>();
 
     @JsonProperty(access = Access.READ_ONLY)
