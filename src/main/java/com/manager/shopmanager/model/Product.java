@@ -1,22 +1,23 @@
 package com.manager.shopmanager.model;
 
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
-import com.manager.shopmanager.validation.NotBlankOrNull;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.LinkedList;
-import java.util.List;
+
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.validation.NotBlankOrNull;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null(groups = {OnCreateValidation.class, OnPatchValidation.class})
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)

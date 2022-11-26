@@ -1,9 +1,8 @@
 package com.manager.shopmanager.controllers;
 
-import com.manager.shopmanager.model.Category;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
-import com.manager.shopmanager.repository.CategoryRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import com.manager.shopmanager.model.Category;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/categories")
@@ -26,7 +27,6 @@ public class CategoryRestController {
         return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Category> addCategory(
             @Validated(OnCreateValidation.class) @RequestBody Category input) {
@@ -35,7 +35,7 @@ public class CategoryRestController {
 
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Category> renameCategoriy(@PathVariable(value = "id") int categoryId,
-                                                                  @Validated(OnPatchValidation.class) @RequestBody Category input) {
+            @Validated(OnPatchValidation.class) @RequestBody Category input) {
         Optional<Category> opCat = categoryRepository.findById(categoryId);
         if (opCat.isEmpty()) {
             return ResponseEntity.notFound().build();

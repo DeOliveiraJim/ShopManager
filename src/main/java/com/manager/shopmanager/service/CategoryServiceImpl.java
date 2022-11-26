@@ -1,12 +1,13 @@
 package com.manager.shopmanager.service;
 
-import com.manager.shopmanager.model.Category;
-import com.manager.shopmanager.repository.CategoryRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.manager.shopmanager.model.Category;
+import com.manager.shopmanager.repository.CategoryRepository;
 
 @Service
 public class CategoryServiceImpl {

@@ -1,5 +1,16 @@
 package com.manager.shopmanager.model;
 
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -7,21 +18,11 @@ import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidat
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 @Entity
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null(groups = {OnCreateValidation.class, OnPatchValidation.class})
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
@@ -35,7 +36,7 @@ public class Shop {
     @NotNull(groups = OnCreateValidation.class)
     private Boolean vacation;
 
-    @Null(groups = {OnCreateValidation.class, OnPatchValidation.class})
+    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
     private Timestamp creationDate;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
