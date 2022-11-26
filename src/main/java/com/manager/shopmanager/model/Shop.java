@@ -64,11 +64,11 @@ public class Shop {
         this.name = name;
     }
 
-    public String getOpeningTimes() {
+    public String getOpeningTime() {
         return openingTime;
     }
 
-    public void setOpeningTimes(String openingTime) {
+    public void setOpeningTime(String openingTime) {
         this.openingTime = openingTime;
     }
 
@@ -116,8 +116,8 @@ public class Shop {
     public void modifyShop(Shop input) {
         if (input.getName() != null)
             setName(input.getName());
-        if (input.getOpeningTimes() != null)
-            setOpeningTimes(input.getOpeningTimes());
+        if (input.getOpeningTime() != null)
+            setOpeningTime(input.getOpeningTime());
         if (input.onVacation() != null)
             setVacation(input.onVacation());
     }
