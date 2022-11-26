@@ -1,58 +1,57 @@
 package com.manager.shopmanager.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.validation.NotBlankOrNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
-
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
-import com.manager.shopmanager.validation.NotBlankOrNull;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
-public class Produit {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @Null(groups = {OnCreateValidation.class, OnPatchValidation.class})
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
     @NotBlankOrNull(groups = OnPatchValidation.class)
-    private String nom;
+    private String name;
 
     @NotNull(groups = OnCreateValidation.class)
     @PositiveOrZero
-    private Integer prix;
+    private Integer price;
 
     @NotBlankOrNull
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Categorie> categories = new LinkedList<>();
+    private List<Category> categories = new LinkedList<>();
 
     public Integer getId() {
         return id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getPrix() {
-        return prix;
+    public Integer getPrice() {
+        return price;
     }
 
-    public void setPrix(int prix) {
-        this.prix = prix;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -63,35 +62,35 @@ public class Produit {
         this.description = description;
     }
 
-    public List<Categorie> getCategories() {
+    public List<Category> getCategories() {
         return new LinkedList<>(categories);
     }
 
-    public void setCategories(List<Categorie> l) {
+    public void setCategories(List<Category> l) {
         categories = l;
     }
 
-    public void addCategorie(Categorie c) {
+    public void addCategory(Category c) {
         categories.add(c);
     }
 
-    public void modifyProduit(Produit input) {
-        if (input.getNom() != null)
-            setNom(input.getNom());
+    public void modifyProduct(Product input) {
+        if (input.getName() != null)
+            setName(input.getName());
         if (input.getCategories() != null)
             setCategories(input.getCategories());
         if (input.getDescription() != null)
             setDescription(input.description);
-        if (input.getPrix() != null)
-            setPrix(input.getPrix());
+        if (input.getPrice() != null)
+            setPrice(input.getPrice());
     }
 
     @Override
     public String toString() {
-        return "Produit{" +
+        return "Product{" +
                 "id='" + id + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prix=" + prix +
+                ", name='" + name + '\'' +
+                ", price=" + price +
                 ", description='" + description + '\'' +
                 '}';
     }

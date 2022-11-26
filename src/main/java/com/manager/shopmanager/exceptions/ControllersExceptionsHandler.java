@@ -1,10 +1,6 @@
 package com.manager.shopmanager.exceptions;
 
-import java.net.ConnectException;
-import java.sql.SQLException;
-
-import javax.validation.ConstraintViolationException;
-
+import com.fasterxml.jackson.core.JacksonException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +27,9 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.fasterxml.jackson.core.JacksonException;
+import javax.validation.ConstraintViolationException;
+import java.net.ConnectException;
+import java.sql.SQLException;
 
 @RestControllerAdvice
 public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler {
@@ -41,7 +39,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ConnectException.class)
     protected ResponseEntity<Object> handleConnectException(ConnectException ex,
-            WebRequest request) {
+                                                            WebRequest request) {
         return sendResponseEntity(
                 createErrorResponse(ex, "Le serveur est actuellement " +
                         "indisponible veuillez réessayez plus tard ", HttpStatus.SERVICE_UNAVAILABLE, request));
@@ -49,7 +47,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(SQLException.class)
     protected ResponseEntity<Object> handleSQLException(SQLException ex,
-            WebRequest request) {
+                                                        WebRequest request) {
         return sendResponseEntity(
                 createErrorResponse(ex, "La base de donnée est actuellement " +
                         "indisponible veuillez réessayez plus tard ", HttpStatus.SERVICE_UNAVAILABLE, request));
@@ -57,7 +55,7 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
-            WebRequest request) {
+                                                                        WebRequest request) {
         StringBuilder message = new StringBuilder();
         String[] m = ex.getConstraintViolations().toString().split(",");
         message.append(m[1].split("=")[1] + " ");
@@ -69,77 +67,74 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(ElementNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementFoundException(ElementNotFoundException ex,
-            WebRequest request) {
+                                                                       WebRequest request) {
         return sendResponseEntity(
                 createErrorResponse(ex, "Requested element not found.", HttpStatus.NOT_FOUND, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                         HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        StringBuilder message = new StringBuilder();
-        message.append(ex.getMethod());
-        message.append(" http method is not supported. " +
-                "Supported methods are ");
-        message.append(ex.getSupportedHttpMethods());
-        return sendResponseEntity(createErrorResponse(ex, message.toString(), status, request));
+        String message = ex.getMethod() +
+                " http method is not supported. " +
+                "Supported methods are " +
+                ex.getSupportedHttpMethods();
+        return sendResponseEntity(createErrorResponse(ex, message, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
-        StringBuilder message = new StringBuilder();
-        message.append(ex.getContentType());
-        message.append(" media type is not supported. " +
-                "Supported media types are ");
-        message.append((ex.getSupportedMediaTypes()));
-        return sendResponseEntity(createErrorResponse(ex, message.toString(), status, request));
+                                                                     HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String message = ex.getContentType() +
+                " media type is not supported. " +
+                "Supported media types are " +
+                (ex.getSupportedMediaTypes());
+        return sendResponseEntity(createErrorResponse(ex, message, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
-        StringBuilder message = new StringBuilder();
-        message.append("This media type is not acceptable. " +
-                "Acceptable media types are ");
-        message.append((ex.getSupportedMediaTypes()));
-        return sendResponseEntity(createErrorResponse(ex, message.toString(), status, request));
+                                                                      HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String message = "This media type is not acceptable. " +
+                "Acceptable media types are " +
+                (ex.getSupportedMediaTypes());
+        return sendResponseEntity(createErrorResponse(ex, message, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+                                                               HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, ex.getMessage(), status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         return super.handleConversionNotSupported(ex, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+                                                        HttpStatus status, WebRequest request) {
         return super.handleTypeMismatch(ex, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         StringBuilder message = new StringBuilder("JSON request not readable, cause -> ");
         Throwable cause = ex.getCause();
         if (cause instanceof JacksonException) {
@@ -152,13 +147,13 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorMessage err = createErrorResponse(ex, "Problem in JSON request, check 'errors' for more information",
                 status, request);
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
@@ -169,44 +164,44 @@ public class ControllersExceptionsHandler extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                     HttpHeaders headers, HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
-            WebRequest request) {
+                                                         WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+                                                                   HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
 
     @Override
     protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+                                                                        HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
         return sendResponseEntity(createErrorResponse(ex, status, webRequest));
     }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+                                                             HttpStatus status, WebRequest request) {
         return sendResponseEntity(createErrorResponse(ex, status, request));
     }
 
     private ErrorMessage createErrorResponse(Exception exception,
-            HttpStatus httpStatus,
-            WebRequest request) {
+                                             HttpStatus httpStatus,
+                                             WebRequest request) {
         return createErrorResponse(exception, exception.getMessage(), httpStatus, request);
     }
 
     private ErrorMessage createErrorResponse(Exception exception,
-            String message,
-            HttpStatus httpStatus,
-            WebRequest request) {
+                                             String message,
+                                             HttpStatus httpStatus,
+                                             WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         ErrorMessage err = new ErrorMessage(httpStatus.value(), message,
                 servletWebRequest.getRequest().getServletPath(), servletWebRequest.getRequest().getMethod());
