@@ -27,6 +27,16 @@ public class CategoryRestController {
         return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Category> getCategory(@PathVariable(value = "id") int categoryId) {
+        Optional<Category> opCat = categoryRepository.findById(categoryId);
+        if (opCat.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(opCat.get(), HttpStatus.OK);
+    }
+
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Category> addCategory(
             @Validated(OnCreateValidation.class) @RequestBody Category input) {
@@ -34,7 +44,7 @@ public class CategoryRestController {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Category> renameCategoriy(@PathVariable(value = "id") int categoryId,
+    public @ResponseBody ResponseEntity<Category> renameCategory(@PathVariable(value = "id") int categoryId,
             @Validated(OnPatchValidation.class) @RequestBody Category input) {
         Optional<Category> opCat = categoryRepository.findById(categoryId);
         if (opCat.isEmpty()) {
