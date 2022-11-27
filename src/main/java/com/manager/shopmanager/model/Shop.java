@@ -44,9 +44,6 @@ public class Shop {
     private List<Product> products = new LinkedList<>();
 
     @JsonProperty(access = Access.READ_ONLY)
-    private Integer nbCategories = 0;
-
-    @JsonProperty(access = Access.READ_ONLY)
     private Integer nbProducts = 0;
 
     public Integer getId() {
@@ -124,15 +121,14 @@ public class Shop {
     }
 
     public Integer getNbCategories() {
-        return nbCategories;
-    }
-
-    public void updateNbs() {
         Set<Category> cats = new HashSet<>();
         for (Product p : products) {
             cats.addAll(p.getCategories());
         }
-        this.nbCategories = cats.size();
+        return cats.size();
+    }
+
+    public void updateNbs() {
         this.nbProducts = getProducts().size();
     }
 
@@ -144,7 +140,7 @@ public class Shop {
                 ", openingTime='" + openingTime + '\'' +
                 ", vacation=" + vacation +
                 ", creationDate=" + creationDate +
-                ", nbCategories=" + nbCategories +
+                // ", nbCategories=" + nbCategories +
                 '}';
     }
 }
