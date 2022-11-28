@@ -70,7 +70,7 @@ public class Shop {
         this.openingTime = openingTime;
     }
 
-    public Boolean onVacation() {
+    public Boolean getVacation() {
         return vacation;
     }
 
@@ -116,8 +116,8 @@ public class Shop {
             setName(input.getName());
         if (input.getOpeningTime() != null)
             setOpeningTime(input.getOpeningTime());
-        if (input.onVacation() != null)
-            setVacation(input.onVacation());
+        if (input.getVacation() != null)
+            setVacation(input.getVacation());
     }
 
     public Integer getNbCategories() {
