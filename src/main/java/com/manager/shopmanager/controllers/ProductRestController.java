@@ -1,8 +1,9 @@
 package com.manager.shopmanager.controllers;
 
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -91,9 +92,9 @@ public class ProductRestController {
         return ResponseEntity.ok().build();
     }
 
-    private List<Category> resolveCategories(List<Category> cats) {
-        List<Category> result = new LinkedList<>();
-        for (Category c : cats) {
+    private Set<Category> resolveCategories(Set<Category> set) {
+        Set<Category> result = new HashSet<>();
+        for (Category c : set) {
             c.setName(c.getName().toUpperCase());
             Optional<Category> optC = categoryService.getCategoryByName(c.getName());
             if (optC.isPresent()) {

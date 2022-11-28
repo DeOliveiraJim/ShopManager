@@ -1,12 +1,12 @@
 package com.manager.shopmanager.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Set;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrNull;
@@ -21,6 +21,11 @@ public class Category {
     @NotBlank(groups = OnCreateValidation.class)
     @NotBlankOrNull(groups = OnPatchValidation.class)
     private String name;
+
+    @JsonIgnore
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
+    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "categories_id"))
+    private Set<Product> products;
 
     public String getName() {
         return name;

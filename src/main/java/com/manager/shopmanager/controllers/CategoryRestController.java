@@ -36,7 +36,6 @@ public class CategoryRestController {
         return new ResponseEntity<>(opCat.get(), HttpStatus.OK);
     }
 
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Category> addCategory(
             @Validated(OnCreateValidation.class) @RequestBody Category input) {
@@ -55,7 +54,7 @@ public class CategoryRestController {
         return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Object> removeCategory(@PathVariable(value = "id") int categoryId) {
         Optional<Category> opCat = categoryRepository.findById(categoryId);
         if (opCat.isEmpty()) {

@@ -1,7 +1,7 @@
 package com.manager.shopmanager.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -32,8 +32,9 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Category> categories = new LinkedList<>();
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
+    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "products_id"))
+    private Set<Category> categories = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -63,11 +64,11 @@ public class Product {
         this.description = description;
     }
 
-    public List<Category> getCategories() {
-        return new LinkedList<>(categories);
+    public Set<Category> getCategories() {
+        return new HashSet<>(categories);
     }
 
-    public void setCategories(List<Category> l) {
+    public void setCategories(Set<Category> l) {
         categories = l;
     }
 
