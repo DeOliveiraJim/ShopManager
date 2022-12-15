@@ -60,7 +60,6 @@ public class OpeningTimesValidator implements ConstraintValidator<ValidOpeningTi
                     || (se.getStart() >= x.getStart() && se.getStart() <= x.getEnd())) {
                 return false;
             }
-            System.out.println("valid ?");
         }
         return true;
     }
