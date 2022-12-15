@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,12 +18,13 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
+import com.manager.shopmanager.validation.ValidOpeningTimes;
 
 @Entity
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
@@ -33,6 +33,7 @@ public class Shop {
 
     @NotEmpty(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
+    @ValidOpeningTimes(groups = { OnCreateValidation.class, OnPatchValidation.class })
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     private List<OpeningTime> openingTimes;
@@ -40,7 +41,7 @@ public class Shop {
     @NotNull(groups = OnCreateValidation.class)
     private Boolean vacation;
 
-    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @JsonProperty(access = Access.READ_ONLY)
     private Timestamp creationDate;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

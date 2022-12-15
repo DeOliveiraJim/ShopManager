@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
@@ -18,7 +19,7 @@ import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)

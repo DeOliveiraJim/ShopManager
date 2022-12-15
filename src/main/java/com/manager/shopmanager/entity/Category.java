@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 
@@ -14,7 +15,7 @@ import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidat
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Integer id;
 
     // non null en patch car un patch de product doit avoir les noms de categories
