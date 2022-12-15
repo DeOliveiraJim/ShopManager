@@ -4,36 +4,37 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
-import com.manager.shopmanager.validation.NotBlankOrNull;
+import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
-    @NotBlankOrNull(groups = OnPatchValidation.class)
+    @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
     private String name;
 
     @NotNull(groups = OnCreateValidation.class)
     @PositiveOrZero
     private Integer price;
 
-    @NotBlankOrNull
     @Column(columnDefinition = "TEXT")
-    private String description;
+    private String description = "";
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
     @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "products_id"))
+    @Valid
     private Set<Category> categories = new HashSet<>();
 
     public Integer getId() {

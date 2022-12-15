@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -16,22 +18,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
-import com.manager.shopmanager.validation.NotBlankOrNull;
+import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
 
 @Entity
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Null(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
 
     @NotBlank(groups = OnCreateValidation.class)
-    @NotBlankOrNull(groups = OnPatchValidation.class)
+    @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
     private String name;
 
-    @NotBlank(groups = OnCreateValidation.class)
-    @NotBlankOrNull(groups = OnPatchValidation.class)
-    private String openingTime;
+    @NotEmpty(groups = OnCreateValidation.class)
+    @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
+    private List<OpeningTime> openingTimes;
 
     @NotNull(groups = OnCreateValidation.class)
     private Boolean vacation;
@@ -62,12 +66,18 @@ public class Shop {
         this.name = name;
     }
 
-    public String getOpeningTime() {
-        return openingTime;
+    public List<OpeningTime> getOpeningTimes() {
+        return openingTimes;
     }
 
-    public void setOpeningTime(String openingTime) {
-        this.openingTime = openingTime;
+    public void setOpeningTimes(List<OpeningTime> openingTimes) {
+        if (this.openingTimes != null) {
+            // pour éviter une erreur hibernate lors du patch
+            this.openingTimes.clear();
+            this.openingTimes.addAll(openingTimes);
+            return;
+        }
+        this.openingTimes = openingTimes;
     }
 
     public Boolean getVacation() {
@@ -114,8 +124,8 @@ public class Shop {
     public void modifyShop(Shop input) {
         if (input.getName() != null)
             setName(input.getName());
-        if (input.getOpeningTime() != null)
-            setOpeningTime(input.getOpeningTime());
+        if (input.getOpeningTimes() != null)
+            setOpeningTimes(input.getOpeningTimes());
         if (input.getVacation() != null)
             setVacation(input.getVacation());
     }
@@ -137,7 +147,7 @@ public class Shop {
         return "Shop{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", openingTime='" + openingTime + '\'' +
+                ", openingTimes='" + openingTimes + '\'' +
                 ", vacation=" + vacation +
                 ", creationDate=" + creationDate +
                 // ", nbCategories=" + nbCategories +
