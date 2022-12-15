@@ -3,8 +3,8 @@ package com.manager.shopmanager.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.manager.shopmanager.entity.Shop;
 import com.manager.shopmanager.exceptions.ElementNotFoundException;
-import com.manager.shopmanager.model.Shop;
 import com.manager.shopmanager.repository.ShopRepository;
 
 @Service

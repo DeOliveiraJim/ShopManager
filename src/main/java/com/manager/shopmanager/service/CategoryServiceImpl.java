@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.manager.shopmanager.model.Category;
+import com.manager.shopmanager.entity.Category;
 import com.manager.shopmanager.repository.CategoryRepository;
 
 @Service

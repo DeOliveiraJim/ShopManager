@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.manager.shopmanager.entity.Shop;
+import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.exceptions.ElementNotFoundException;
-import com.manager.shopmanager.model.Shop;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.service.ShopServiceImpl;
 
 @RestController

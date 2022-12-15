@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.manager.shopmanager.model.Category;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnCreateValidation;
-import com.manager.shopmanager.model.interfaces.ValidationGroups.OnPatchValidation;
+import com.manager.shopmanager.entity.Category;
+import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
+import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.repository.CategoryRepository;
 
 @RestController
