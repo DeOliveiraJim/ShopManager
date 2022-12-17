@@ -67,7 +67,7 @@ public class Product {
     }
 
     public Set<Category> getCategories() {
-        return new HashSet<>(categories);
+        return categories == null ? null : new HashSet<>(categories);
     }
 
     public void setCategories(Set<Category> l) {
