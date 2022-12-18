@@ -1,7 +1,7 @@
 spring:
   jpa.hibernate.ddl-auto: update
   datasource:
-    url: jdbc:mysql://host.docker.internal:3307/shop_manager?createDatabaseIfNotExist=true&autoReconnect=true
+    url: jdbc:mysql://host.docker.internal:3306/shop_manager?createDatabaseIfNotExist=true&autoReconnect=true
     username: root
     password: U+yW56N*HK6Efy2@
     driver-class-name: com.mysql.cj.jdbc.Driver
