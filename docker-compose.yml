@@ -20,7 +20,7 @@ services:
             timeout: 10s
             retries: 10  
     ports:
-      - 3307:3306
+      - 3306:3306
   front:
     image : jhimjhim/shop_client
     links:
