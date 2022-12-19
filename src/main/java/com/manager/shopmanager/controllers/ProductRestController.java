@@ -52,13 +52,15 @@ public class ProductRestController {
     @PostMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Product> addProduct(@PathVariable(value = "shopId") int shopId,
             @Validated(OnCreateValidation.class) @RequestBody Product input) {
-        if (input.getCategories() != null) {
-            input.setCategories(resolveCategories(input.getCategories()));
+        synchronized (ProductRestController.class) {
+            if (input.getCategories() != null) {
+                input.setCategories(resolveCategories(input.getCategories()));
+            }
+            Shop b = shopService.getShop(shopId);
+            b.addProduct(input);
+            List<Product> prods = shopService.saveShop(b).getProducts();
+            return new ResponseEntity<>(prods.get(prods.size() - 1), HttpStatus.OK);
         }
-        Shop b = shopService.getShop(shopId);
-        b.addProduct(input);
-        List<Product> prods = shopService.saveShop(b).getProducts();
-        return new ResponseEntity<>(prods.get(prods.size() - 1), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/products/{productId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -39,7 +39,9 @@ public class CategoryRestController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Category> addCategory(
             @Validated(OnCreateValidation.class) @RequestBody Category input) {
-        return new ResponseEntity<>(categoryRepository.save(input), HttpStatus.OK);
+        synchronized (ProductRestController.class) {
+            return new ResponseEntity<>(categoryRepository.save(input), HttpStatus.OK);
+        }
     }
 
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
