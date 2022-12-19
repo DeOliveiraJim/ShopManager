@@ -28,7 +28,7 @@ public class Product {
 
     @NotNull(groups = OnCreateValidation.class)
     @PositiveOrZero
-    private Integer price;
+    private Float price;
 
     @Column(columnDefinition = "TEXT")
     private String description = "";
@@ -50,11 +50,11 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

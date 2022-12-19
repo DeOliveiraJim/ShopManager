@@ -76,7 +76,6 @@ public class ProductRestController {
         product.modifyProduct(input);
         shopService.saveShop(shop);
         return new ResponseEntity<>(product, HttpStatus.OK);
-
     }
 
     @DeleteMapping(value = "/products/{productId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
