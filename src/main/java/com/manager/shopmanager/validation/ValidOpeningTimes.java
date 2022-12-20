@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidOpeningTimes {
-    String message() default "The value is not valid";
+    String message() default "a time range is defined several times";
 
     Class<?>[] groups() default {};
 

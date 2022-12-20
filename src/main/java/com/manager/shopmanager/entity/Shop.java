@@ -33,9 +33,9 @@ public class Shop {
 
     @NotEmpty(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
+    @Valid
     @ValidOpeningTimes(groups = { OnCreateValidation.class, OnPatchValidation.class })
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Valid
     private List<OpeningTime> openingTimes;
 
     @NotNull(groups = OnCreateValidation.class)

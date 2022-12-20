@@ -2,6 +2,7 @@ package com.manager.shopmanager.validation;
 
 import java.time.DayOfWeek;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,6 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 import com.manager.shopmanager.entity.OpeningTime;
 
 public class OpeningTimesValidator implements ConstraintValidator<ValidOpeningTimes, Collection<OpeningTime>> {
+    private final static Pattern HOUR_REGEX = Pattern.compile("([0-1]?\\d|2[0-3]):[0-5]\\d");
 
     private class StartEnd {
         private int start;
@@ -37,6 +39,11 @@ public class OpeningTimesValidator implements ConstraintValidator<ValidOpeningTi
             return true;
         Map<DayOfWeek, List<StartEnd>> timesPerDay = new HashMap<>();
         for (OpeningTime ot : value) {
+            // true si c'est mal formé car les erreurs de regex sont géré par OpeningTime
+            if (!HOUR_REGEX.matcher(ot.getStart()).find())
+                return true;
+            if (!HOUR_REGEX.matcher(ot.getEnd()).find())
+                return true;
             for (DayOfWeek d : ot.getDays()) {
                 if (timesPerDay.get(d) == null)
                     timesPerDay.put(d, new LinkedList<>());
