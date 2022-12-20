@@ -66,7 +66,10 @@ public class Product {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null)
+            this.description = "";
+        else
+            this.description = description;
     }
 
     public Set<Category> getCategories() {
