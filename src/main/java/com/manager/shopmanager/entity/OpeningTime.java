@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
@@ -21,8 +22,9 @@ public class OpeningTime {
     private Integer id;
 
     @ElementCollection
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
     @NotEmpty(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Collection<DayOfWeek> days;
 
     @NotEmpty
