@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,6 +21,7 @@ public class Category {
 
     // non null en patch car un patch de product doit avoir les noms de categories
     @NotBlank(groups = { OnCreateValidation.class, OnPatchValidation.class })
+    @Size(min = 1, max = 255)
     private String name;
 
     @JsonIgnore

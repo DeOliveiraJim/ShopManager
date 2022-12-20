@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,6 +25,7 @@ public class Product {
 
     @NotBlank(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
+    @Size(min = 1, max = 255)
     private String name;
 
     @NotNull(groups = OnCreateValidation.class)
@@ -31,6 +33,7 @@ public class Product {
     private Float price;
 
     @Column(columnDefinition = "TEXT")
+    @Size(min = 1, max = 65535)
     private String description = "";
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })

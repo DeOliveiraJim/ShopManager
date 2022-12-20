@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,6 +30,7 @@ public class Shop {
 
     @NotBlank(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
+    @Size(min = 1, max = 255)
     private String name;
 
     @NotEmpty(groups = OnCreateValidation.class)
