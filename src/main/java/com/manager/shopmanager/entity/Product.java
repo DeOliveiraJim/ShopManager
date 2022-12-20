@@ -33,7 +33,7 @@ public class Product {
     private Float price;
 
     @Column(columnDefinition = "TEXT")
-    @Size(min = 1, max = 65535)
+    @Size(min = 0, max = 65535)
     private String description = "";
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
