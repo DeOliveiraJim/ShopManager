@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnCreateValidation;
 import com.manager.shopmanager.entity.interfaces.ValidationGroups.OnPatchValidation;
 import com.manager.shopmanager.validation.NotBlankOrEmptyOrNull;
+import com.manager.shopmanager.validation.ValidDetails;
 
 @Entity
 public class Product {
@@ -27,6 +28,7 @@ public class Product {
     @NotEmpty(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
     @Valid
+    @ValidDetails(groups = { OnCreateValidation.class, OnPatchValidation.class })
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductDetail> details = new LinkedList<>();
 
