@@ -1,14 +1,15 @@
 package com.manager.shopmanager.entity;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -23,18 +24,15 @@ public class Product {
     @JsonProperty(access = Access.READ_ONLY)
     private Integer id;
 
-    @NotBlank(groups = OnCreateValidation.class)
+    @NotEmpty(groups = OnCreateValidation.class)
     @NotBlankOrEmptyOrNull(groups = OnPatchValidation.class)
-    @Size(min = 1, max = 255)
-    private String name;
+    @Valid
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductDetail> details = new LinkedList<>();
 
     @NotNull(groups = OnCreateValidation.class)
     @PositiveOrZero
     private Float price;
-
-    @Column(columnDefinition = "TEXT")
-    @Size(min = 0, max = 65535)
-    private String description = "";
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
     @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "products_id"))
@@ -45,12 +43,12 @@ public class Product {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public List<ProductDetail> getDetails() {
+        return details;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDetails(List<ProductDetail> details) {
+        this.details = details;
     }
 
     public Float getPrice() {
@@ -59,17 +57,6 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        if (description == null)
-            this.description = "";
-        else
-            this.description = description;
     }
 
     public Set<Category> getCategories() {
@@ -85,23 +72,17 @@ public class Product {
     }
 
     public void modifyProduct(Product input) {
-        if (input.getName() != null)
-            setName(input.getName());
+        if (input.getDetails() != null)
+            setDetails(details);
         if (input.getCategories() != null)
             setCategories(input.getCategories());
-        if (input.getDescription() != null)
-            setDescription(input.description);
         if (input.getPrice() != null)
             setPrice(input.getPrice());
     }
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                '}';
+        return "Product [id=" + id + ", details=" + details + ", price=" + price + ", categories=" + categories + "]";
     }
+
 }

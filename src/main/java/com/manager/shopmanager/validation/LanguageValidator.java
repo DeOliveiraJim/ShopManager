@@ -11,6 +11,8 @@ public class LanguageValidator implements ConstraintValidator<LanguageString, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null)
+            return false;
         for (String l : languages) {
             if (l.equals(value))
                 return true;

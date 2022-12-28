@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LanguageString {
-    String message() default "The value is not a language";
+    String message() default "The value is not a ISO 639-1 code. It should be for example one of these values : en, es, fr, de.";
 
     Class<?>[] groups() default {};
 
