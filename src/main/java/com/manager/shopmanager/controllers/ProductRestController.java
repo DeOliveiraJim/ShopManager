@@ -96,7 +96,6 @@ public class ProductRestController {
     private Set<Category> resolveCategories(Set<Category> set) {
         Set<Category> result = new HashSet<>();
         for (Category c : set) {
-            c.setName(c.getName().toUpperCase());
             Optional<Category> optC = categoryService.getCategoryByName(c.getName());
             if (optC.isPresent()) {
                 result.add(optC.get());
