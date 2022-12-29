@@ -62,4 +62,9 @@ public class ProductDetail {
         else
             this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDetail [id=" + id + ", lang=" + lang + ", name=" + name + ", description=" + description + "]";
+    }
 }

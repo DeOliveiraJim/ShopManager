@@ -50,6 +50,11 @@ public class Product {
     }
 
     public void setDetails(List<ProductDetail> details) {
+        if (this.details != null) {
+            this.details.clear();
+            this.details.addAll(details);
+            return;
+        }
         this.details = details;
     }
 
@@ -75,7 +80,7 @@ public class Product {
 
     public void modifyProduct(Product input) {
         if (input.getDetails() != null)
-            setDetails(details);
+            setDetails(input.getDetails());
         if (input.getCategories() != null)
             setCategories(input.getCategories());
         if (input.getPrice() != null)
