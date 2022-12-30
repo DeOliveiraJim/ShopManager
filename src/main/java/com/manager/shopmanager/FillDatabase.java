@@ -1,6 +1,6 @@
 package com.manager.shopmanager;
 
-import java.io.File;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -8,8 +8,8 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manager.shopmanager.entity.Category;
@@ -31,8 +31,8 @@ public class FillDatabase implements ApplicationRunner {
         if (shopService.count() != 0 || categoryService.count() != 0)
             return;
 
-        File shopFile = ResourceUtils.getFile("classpath:shop.json");
-        File productFile = ResourceUtils.getFile("classpath:product.json");
+        InputStream shopFile = new ClassPathResource("shop.json").getInputStream();
+        InputStream productFile = new ClassPathResource("product.json").getInputStream();
         ObjectMapper mapper = new ObjectMapper();
         Shop[] shops = mapper.readValue(shopFile, Shop[].class);
         Product[] products = mapper.readValue(productFile, Product[].class);
