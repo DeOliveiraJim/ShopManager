@@ -28,7 +28,11 @@ public class ShopServiceImpl {
     }
 
     public Shop saveShop(Shop b) {
-        return shopRepository.save(b);
+        return shopRepository.saveAndFlush(b);
+    }
+
+    public long count() {
+        return shopRepository.count();
     }
 
 }

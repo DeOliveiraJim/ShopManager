@@ -35,7 +35,11 @@ public class CategoryServiceImpl {
     }
 
     public Category saveCategory(Category c) {
-        return categoryRepository.save(c);
+        return categoryRepository.saveAndFlush(c);
+    }
+
+    public long count() {
+        return categoryRepository.count();
     }
 
 }

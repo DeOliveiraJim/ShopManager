@@ -46,7 +46,7 @@ public class Shop {
     @JsonProperty(access = Access.READ_ONLY)
     private Timestamp creationDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Product> products = new LinkedList<>();
 
