@@ -1,11 +1,15 @@
 spring:
-  jpa.hibernate.ddl-auto: update
+  jpa.hibernate:
+    ddl-auto: update
+    event.merge.entity_copy_observer: allow
   datasource:
-    url: jdbc:mysql://localhost/shop_manager?createDatabaseIfNotExist=true&autoReconnect=true
-    username: phpmyadmin
-    password: root
+    url: jdbc:mysql://localhost:3307/shop_manager?createDatabaseIfNotExist=true&autoReconnect=true
+    username: root
+    password: U+yW56N*HK6Efy2@
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql.init:
     platform: mysql
     mode: always
-  jackson.deserialization.fail-on-unknown-properties: true
+  jackson.deserialization:
+    fail-on-unknown-properties: true
+    fail-on-ignored-properties: true

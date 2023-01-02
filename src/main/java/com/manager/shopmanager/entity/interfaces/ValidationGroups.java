@@ -1,4 +1,4 @@
-package com.manager.shopmanager.model.interfaces;
+package com.manager.shopmanager.entity.interfaces;
 
 public class ValidationGroups {
     public interface OnCreateValidation {
