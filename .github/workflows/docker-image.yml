@@ -33,5 +33,5 @@ jobs:
         with:
           push: true
           tags: jhimjhim/springbootmysql
-          add-hosts: localhost:172.17.0.1
+          add-hosts: host.docker.internal:172.17.0.1
           network: host
